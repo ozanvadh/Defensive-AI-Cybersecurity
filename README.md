@@ -13,7 +13,7 @@ The project is organized around two complementary defensive layers:
 - **Human Layer:** detect phishing-class email content before a user interacts with it.
 - **Network Layer:** detect suspicious or automated malicious network behavior using machine-learning methods.
 
-The project begins with a Human Layer study of phishing-email classification and robustness under controlled synthetic distribution shift. A Network Layer extension will investigate machine-learning detection of suspicious or automated network behavior.
+The project contains two completed v1 studies: a Human Layer evaluation of phishing-email classification under controlled synthetic distribution shift, and a Network Layer evaluation of intrusion detection under controlled feature stress tests and official test-set distribution shift.
 
 ---
 
@@ -27,6 +27,11 @@ The project begins with a Human Layer study of phishing-email classification and
 - [Aggregate results](Phase-1-Phishing-Detection/results/results_summary.csv)
 - [Publication figures](Phase-1-Phishing-Detection/results/figures/)
 - [Defensive demo](Phase-1-Phishing-Detection/demo/)
+- [Full Network Layer research report](Network-Layer-Intrusion-Detection/documentation/network_layer_research_report.md)
+- [Network Layer final test evaluation](Network-Layer-Intrusion-Detection/documentation/final_test_evaluation.md)
+- [Network Layer robustness results](Network-Layer-Intrusion-Detection/documentation/robustness_results.md)
+- [Network Layer reproducibility audit](Network-Layer-Intrusion-Detection/documentation/reproducibility_audit.md)
+- [Network Layer results summary](Network-Layer-Intrusion-Detection/results/results_summary.csv)
 
 ---
 
@@ -271,7 +276,7 @@ Core synthetic evaluation can be reproduced with:
 ```text
 Defensive-AI-Cybersecurity/
 ├── README.md
-└── Phase-1-Phishing-Detection/
+├── Phase-1-Phishing-Detection/
     ├── data/
     │   ├── raw/
     │   └── processed/
@@ -291,9 +296,33 @@ Defensive-AI-Cybersecurity/
     ├── results/
     ├── src/
     └── requirements-transformer.txt
+└── Network-Layer-Intrusion-Detection/
+    ├── data/
+    ├── documentation/
+    ├── models/
+    ├── results/
+    ├── src/
+    ├── network_environment.txt
+    └── README.md
 ```
 
 Large raw datasets and trained model weights are intentionally not committed directly to GitHub.
+
+---
+
+## Network Layer: Intrusion Detection Under Distribution Shift
+
+The completed Network Layer uses UNSW-NB15 to test whether strong internal intrusion-detection performance survives controlled feature perturbation and an untouched official test distribution.
+
+The stronger Histogram Gradient Boosting model achieved **95.59% validation accuracy**, **97.56% attack recall**, and an **8.59% false-positive rate**. A pre-specified stress test that neutralized only `sttl` reduced balanced accuracy from **94.48% to 83.37%** and increased the false-negative rate from **2.44% to 18.96%**.
+
+On the untouched official 82,332-row test partition, the frozen stronger model retained **98.53% attack recall**, but accuracy fell to **87.38%** and the false-positive rate increased to **26.29%**. This indicates a substantial benign-traffic generalization gap.
+
+The controlled feature ablations diagnose model sensitivity. They are not simulations of a specific real-world attack and do not establish that an attacker can force the tested transformations.
+
+Full Network Layer documentation is available under:
+
+`Network-Layer-Intrusion-Detection/documentation/`
 
 ---
 
@@ -334,4 +363,4 @@ The Human Layer experiments show two things at the same time:
 
 Within the controlled synthetic evaluation, communication style appeared more informative than simple message length or generator source, and DistilBERT frequently made highly confident incorrect predictions.
 
-The project therefore supports evaluating defensive AI systems not only by standard validation accuracy, but also by robustness under realistic distribution shifts.
+Across both completed layers, the project supports evaluating defensive AI systems not only by standard validation accuracy, but also by carefully controlled robustness tests and untouched evaluation distributions.
