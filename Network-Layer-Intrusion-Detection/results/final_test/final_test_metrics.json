@@ -1,0 +1,8 @@
+{
+  "logistic_regression": {
+    "accuracy":0.8094422581742214,"precision":0.753302684873447,"recall":0.9723374216888732,"f1":0.8489190620636525,"false_positive_rate":0.39013513513513515,"false_negative_rate":0.027662578311126798,"roc_auc":0.9558729845392909,"balanced_accuracy":0.7911011432768691,"tn":22565,"fp":14435,"fn":1254,"tp":44078
+  },
+  "hist_gradient_boosting": {
+    "accuracy":0.8737671865131419,"precision":0.8211718419649587,"recall":0.9853083914232772,"f1":0.8957834043619954,"false_positive_rate":0.2628918918918919,"false_negative_rate":0.014691608576722845,"roc_auc":0.9848037601264902,"balanced_accuracy":0.8612082497656927,"tn":27273,"fp":9727,"fn":666,"tp":44666
+  }
+}
