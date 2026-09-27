@@ -577,7 +577,7 @@ The ordering also reversed:
 - baseline synthetic detection: 55.40%;
 - DistilBERT synthetic detection: 36.20%.
 
-![Figure 2. Historical final-test recall compared with detection rate on the controlled synthetic phishing-class distribution.](../results/figures/figure_2_historical_vs_synthetic.png)
+![Figure 2. Historical final-test recall compared with detection rate on the controlled synthetic phishing-class distribution.](../results/figures/figure_2_historical_vs_synthetic.svg)
 
 **Figure 2. Historical generalization versus controlled synthetic detection.** Both models retain very high recall on the historical final test but decline substantially on the frozen positive-only synthetic set. Because the synthetic set contains only phishing-class examples, the plotted synthetic quantity is detection rate/recall rather than full classification accuracy.
 
