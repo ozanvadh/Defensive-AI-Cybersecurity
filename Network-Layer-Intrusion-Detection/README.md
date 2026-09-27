@@ -30,6 +30,8 @@ The main conclusion is not that the model fails universally. It is that excellen
 - [Reproducibility audit](documentation/reproducibility_audit.md)
 - [Captured Python environment](network_environment.txt)
 - [Consolidated results table](results/results_summary.csv)
+- [Publication figures](results/figures/)
+- [Defensive CSV demo](demo/)
 
 ## Scientific safeguards
 
