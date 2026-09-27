@@ -83,16 +83,16 @@ synthetic = [100 * value("synthetic", m, "overall", "detection_rate") for m in m
 
 x = np.arange(2)
 width = 0.34
-fig, ax = plt.subplots(figsize=(8, 5.2))
+fig, ax = plt.subplots(figsize=(9, 5.4))
 b1 = ax.bar(x - width / 2, historical, width, label="Historical final-test recall")
-b2 = ax.bar(x + width / 2, synthetic, width, label="Synthetic detection rate")
-ax.bar_label(b1, fmt="%.1f%%", padding=3)
-ax.bar_label(b2, fmt="%.1f%%", padding=3)
+b2 = ax.bar(x + width / 2, synthetic, width, label="Controlled synthetic detection")
+ax.bar_label(b1, fmt="%.2f%%", padding=3)
+ax.bar_label(b2, fmt="%.2f%%", padding=3)
 ax.set_ylabel("Detection / Recall (%)")
 ax.set_title("Historical Generalization vs Controlled Synthetic Distribution")
 ax.set_xticks(x, model_labels)
-ax.set_ylim(0, 110)
-ax.legend(frameon=False)
+ax.set_ylim(0, 105)
+ax.legend(frameon=False, ncols=2, loc="upper center", bbox_to_anchor=(0.5, 1.0))
 ax.grid(axis="y", alpha=0.25)
 save_figure(fig, "figure_2_historical_vs_synthetic")
 
