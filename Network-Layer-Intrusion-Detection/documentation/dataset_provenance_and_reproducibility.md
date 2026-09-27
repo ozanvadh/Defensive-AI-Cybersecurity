@@ -62,6 +62,70 @@ The preconfigured modeling CSVs contain 45 columns as observed directly from the
 
 The official testing CSV was inspected only for file integrity, schema, labels, missingness, duplicate-row count, and category counts. Its predictive features were not used for model development, feature selection, preprocessing fitting, hyperparameter tuning, or model selection.
 
+## Raw Dataset Verification
+
+The two official preconfigured modeling CSVs were verified before preprocessing. Verification was limited to file identity, schema, row counts, missing values, exact duplicate rows, and label/category counts. No test-set features were used for model selection, feature selection, threshold selection, or tuning.
+
+### Training partition
+
+- Filename: `UNSW_NB15_training-set.csv`
+- Size: 32,293,018 bytes
+- SHA-256: `bec7dd5ec88dc2a0ccc7a07879d338395ed7421750f675fd0339e07dfe0648fa`
+- Rows: 175,341
+- Columns: 45
+- Missing values: 0
+- Exact duplicate rows: 0
+- Attack records (`label = 1`): 119,341
+- Normal records (`label = 0`): 56,000
+
+Training attack-category counts:
+
+- Normal: 56,000
+- Generic: 40,000
+- Exploits: 33,393
+- Fuzzers: 18,184
+- DoS: 12,264
+- Reconnaissance: 10,491
+- Analysis: 2,000
+- Backdoor: 1,746
+- Shellcode: 1,133
+- Worms: 130
+
+### Testing partition
+
+- Filename: `UNSW_NB15_testing-set.csv`
+- Size: 15,380,800 bytes
+- SHA-256: `734fe6642edf758f7c94d7d9149426b49d202fe8e7bf0bef47392489c3c0a559`
+- Rows: 82,332
+- Columns: 45
+- Missing values: 0
+- Exact duplicate rows: 0
+- Attack records (`label = 1`): 45,332
+- Normal records (`label = 0`): 37,000
+
+Testing attack-category counts:
+
+- Normal: 37,000
+- Generic: 18,871
+- Exploits: 11,132
+- Fuzzers: 6,062
+- DoS: 4,089
+- Reconnaissance: 3,496
+- Analysis: 677
+- Backdoor: 583
+- Shellcode: 378
+- Worms: 44
+
+### Observed schema
+
+The supplied preconfigured training and testing CSVs each contain 45 columns:
+
+`id`, `dur`, `proto`, `service`, `state`, `spkts`, `dpkts`, `sbytes`, `dbytes`, `rate`, `sttl`, `dttl`, `sload`, `dload`, `sloss`, `dloss`, `sinpkt`, `dinpkt`, `sjit`, `djit`, `swin`, `stcpb`, `dtcpb`, `dwin`, `tcprtt`, `synack`, `ackdat`, `smean`, `dmean`, `trans_depth`, `response_body_len`, `ct_srv_src`, `ct_state_ttl`, `ct_dst_ltm`, `ct_src_dport_ltm`, `ct_dst_sport_ltm`, `ct_dst_src_ltm`, `is_ftp_login`, `ct_ftp_cmd`, `ct_flw_http_mthd`, `ct_src_ltm`, `ct_srv_dst`, `is_sm_ips_ports`, `attack_cat`, and `label`.
+
+The observed 45-column schema is recorded as the authoritative schema for these downloaded modeling files. Documentation describing broader UNSW-NB15 feature sets should not be interpreted as evidence that these specific preconfigured CSVs contain 49 columns.
+
+The official test partition remains reserved for final model evaluation. Structural integrity verification does not constitute model-development use of the test features.
+
 ## Labels
 
 The primary task is binary intrusion detection:
