@@ -44,6 +44,24 @@ The official testing partition will remain isolated from model development.
 
 A validation partition will be derived only from the official training data. The exact validation procedure, random seed, class distributions, duplicate checks, and any grouping or leakage controls will be documented before model training.
 
+## Verified Raw File Integrity
+
+The original uploaded CSV files were verified before preprocessing.
+
+| File | Bytes | Rows | Columns | Missing Values | Exact Duplicate Rows | SHA-256 |
+| --- | ---: | ---: | ---: | ---: | ---: | --- |
+| `UNSW_NB15_training-set.csv` | 32,293,018 | 175,341 | 45 | 0 | 0 | `bec7dd5ec88dc2a0ccc7a07879d338395ed7421750f675fd0339e07dfe0648fa` |
+| `UNSW_NB15_testing-set.csv` | 15,380,800 | 82,332 | 45 | 0 | 0 | `734fe6642edf758f7c94d7d9149426b49d202fe8e7bf0bef47392489c3c0a559` |
+
+Observed binary-label counts:
+
+- Training: 119,341 attack and 56,000 normal.
+- Testing: 45,332 attack and 37,000 normal.
+
+The preconfigured modeling CSVs contain 45 columns as observed directly from the files. This observed schema count is used for the experiment even though broader UNSW-NB15 documentation describes a larger feature set in other dataset representations.
+
+The official testing CSV was inspected only for file integrity, schema, labels, missingness, duplicate-row count, and category counts. Its predictive features were not used for model development, feature selection, preprocessing fitting, hyperparameter tuning, or model selection.
+
 ## Labels
 
 The primary task is binary intrusion detection:
@@ -162,4 +180,4 @@ Moustafa, N., & Slay, J. (2015). UNSW-NB15: A comprehensive data set for network
 
 ## Record Status
 
-This document was created before Network Layer dataset processing or model training. File-specific hashes, exact environment versions, and preprocessing decisions will be appended only after they are observed directly.
+This document was created before Network Layer dataset processing or model training. Raw-file hashes and structural integrity information have now been recorded. Exact environment versions and preprocessing decisions will be appended only after they are observed directly.
