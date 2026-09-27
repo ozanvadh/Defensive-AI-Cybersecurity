@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="560" viewBox="0 0 960 560">
+<rect width="960" height="560" fill="white"/>
+<text x="480" y="34" text-anchor="middle" font-family="Arial" font-size="22" font-weight="bold">Human Layer: Positive-Class Detection Under Distribution Shift</text>
+<text x="480" y="58" text-anchor="middle" font-family="Arial" font-size="13">Historical test recall vs. controlled synthetic detection rate</text>
+<line x1="90" y1="90" x2="90" y2="440" stroke="black"/><line x1="90" y1="440" x2="920" y2="440" stroke="black"/>
+<g font-family="Arial" font-size="12">
+<line x1="90" y1="440" x2="920" y2="440" stroke="#ddd"/><text x="80" y="445" text-anchor="end">0%</text>
+<line x1="90" y1="370" x2="920" y2="370" stroke="#ddd"/><text x="80" y="375" text-anchor="end">20%</text>
+<line x1="90" y1="300" x2="920" y2="300" stroke="#ddd"/><text x="80" y="305" text-anchor="end">40%</text>
+<line x1="90" y1="230" x2="920" y2="230" stroke="#ddd"/><text x="80" y="235" text-anchor="end">60%</text>
+<line x1="90" y1="160" x2="920" y2="160" stroke="#ddd"/><text x="80" y="165" text-anchor="end">80%</text>
+<line x1="90" y1="90" x2="920" y2="90" stroke="#ddd"/><text x="80" y="95" text-anchor="end">100%</text>
+<rect x="180" y="95" width="105" height="345" fill="#4C78A8"/><text x="232" y="87" text-anchor="middle">98.47%</text>
+<rect x="295" y="246" width="105" height="194" fill="#F58518"/><text x="347" y="238" text-anchor="middle">55.40%</text>
+<rect x="570" y="93" width="105" height="347" fill="#4C78A8"/><text x="622" y="85" text-anchor="middle">99.16%</text>
+<rect x="685" y="313" width="105" height="127" fill="#F58518"/><text x="737" y="305" text-anchor="middle">36.20%</text>
+<text x="290" y="470" text-anchor="middle" font-size="14">TF-IDF + Logistic Regression</text>
+<text x="680" y="470" text-anchor="middle" font-size="14">DistilBERT</text>
+<rect x="285" y="510" width="16" height="16" fill="#4C78A8"/><text x="308" y="523">Historical test recall</text>
+<rect x="510" y="510" width="16" height="16" fill="#F58518"/><text x="533" y="523">Synthetic detection</text>
+</g></svg>
