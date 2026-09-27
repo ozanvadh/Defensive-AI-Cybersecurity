@@ -1,0 +1,5 @@
+model,split,accuracy,precision,recall,f1,false_positive_rate,false_negative_rate,balanced_accuracy,roc_auc
+logistic_regression,validation,0.932824,0.920100,0.987014,0.952383,0.182662,0.012986,0.902176,0.98368
+hist_gradient_boosting,validation,0.955948,0.960330,0.975577,0.967893,0.085885,0.024423,0.944846,0.99290
+logistic_regression,final_test,0.8094,0.7533,0.9723,0.8489,0.3901,0.0277,0.7911,0.9559
+hist_gradient_boosting,final_test,0.8738,0.8212,0.9853,0.8958,0.2629,0.0147,0.8612,0.9848
