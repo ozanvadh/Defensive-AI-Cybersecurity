@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="520" viewBox="0 0 900 520">
+<rect width="100%" height="100%" fill="white"/>
+<text x="450" y="32" text-anchor="middle" font-family="Arial" font-size="22" font-weight="bold">Pre-specified robustness stress tests</text>
+<line x1="90" y1="70" x2="90" y2="410" stroke="black"/><line x1="90" y1="410" x2="870" y2="410" stroke="black"/>
+<g font-family="Arial" font-size="13">
+<line x1="85" y1="410" x2="870" y2="410" stroke="#ddd"/><text x="80" y="415" text-anchor="end">0.0</text>
+<line x1="85" y1="342" x2="870" y2="342" stroke="#ddd"/><text x="80" y="347" text-anchor="end">0.2</text>
+<line x1="85" y1="274" x2="870" y2="274" stroke="#ddd"/><text x="80" y="279" text-anchor="end">0.4</text>
+<line x1="85" y1="206" x2="870" y2="206" stroke="#ddd"/><text x="80" y="211" text-anchor="end">0.6</text>
+<line x1="85" y1="138" x2="870" y2="138" stroke="#ddd"/><text x="80" y="143" text-anchor="end">0.8</text>
+<line x1="85" y1="70" x2="870" y2="70" stroke="#ddd"/><text x="80" y="75" text-anchor="end">1.0</text>
+</g>
+<g font-family="Arial" font-size="11">
+<rect x="120" y="89" width="36" height="321" fill="#4C78A8"/><text x="138" y="84" text-anchor="middle">94.5%</text>
+<rect x="160" y="78" width="36" height="332" fill="#F58518"/><text x="178" y="73" text-anchor="middle">97.6%</text>
+<rect x="200" y="381" width="36" height="29" fill="#54A24B"/><text x="218" y="376" text-anchor="middle">8.6%</text>
+<rect x="315" y="174" width="36" height="236" fill="#4C78A8"/><text x="333" y="169" text-anchor="middle">69.4%</text>
+<rect x="355" y="78" width="36" height="332" fill="#F58518"/><text x="373" y="73" text-anchor="middle">97.7%</text>
+<rect x="395" y="210" width="36" height="200" fill="#54A24B"/><text x="413" y="205" text-anchor="middle">58.8%</text>
+<rect x="510" y="217" width="36" height="193" fill="#4C78A8"/><text x="528" y="212" text-anchor="middle">56.8%</text>
+<rect x="550" y="78" width="36" height="332" fill="#F58518"/><text x="568" y="73" text-anchor="middle">97.6%</text>
+<rect x="590" y="124" width="36" height="286" fill="#54A24B"/><text x="608" y="119" text-anchor="middle">84.1%</text>
+<rect x="705" y="110" width="36" height="300" fill="#4C78A8"/><text x="723" y="105" text-anchor="middle">88.3%</text>
+<rect x="745" y="71" width="36" height="339" fill="#F58518"/><text x="763" y="66" text-anchor="middle">99.8%</text>
+<rect x="785" y="331" width="36" height="79" fill="#54A24B"/><text x="803" y="326" text-anchor="middle">23.2%</text>
+</g>
+<g font-family="Arial" font-size="12">
+<text x="178" y="438" text-anchor="middle">Reference</text><text x="373" y="438" text-anchor="middle">sttl median</text><text x="568" y="438" text-anchor="middle">TTL family</text><text x="763" y="438" text-anchor="middle">Unknown cats</text>
+<rect x="90" y="475" width="14" height="14" fill="#4C78A8"/><text x="110" y="487">Balanced accuracy</text>
+<rect x="285" y="475" width="14" height="14" fill="#F58518"/><text x="305" y="487">Attack recall</text>
+<rect x="440" y="475" width="14" height="14" fill="#54A24B"/><text x="460" y="487">False-positive rate</text>
+</g></svg>
