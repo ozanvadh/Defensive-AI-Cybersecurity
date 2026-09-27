@@ -314,7 +314,7 @@ Large raw datasets and trained model weights are intentionally not committed dir
 
 The completed Network Layer uses UNSW-NB15 to test whether strong internal intrusion-detection performance survives controlled feature perturbation and an untouched official test distribution.
 
-The stronger Histogram Gradient Boosting model achieved **95.59% validation accuracy**, **97.56% attack recall**, and an **8.59% false-positive rate**. A pre-specified stress test that neutralized only `sttl` reduced balanced accuracy from **94.48% to 83.37%** and increased the false-negative rate from **2.44% to 18.96%**.
+The stronger Histogram Gradient Boosting model achieved **95.59% validation accuracy**, **97.56% attack recall**, and an **8.59% false-positive rate**. A pre-specified stress test that neutralized only `sttl` reduced balanced accuracy from **94.48% to 69.41%** by increasing the false-positive rate from **8.59% to 58.84%**, while attack recall remained **97.67%**.
 
 On the untouched official 82,332-row test partition, the frozen stronger model retained **98.53% attack recall**, but accuracy fell to **87.38%** and the false-positive rate increased to **26.29%**. This indicates a substantial benign-traffic generalization gap.
 
