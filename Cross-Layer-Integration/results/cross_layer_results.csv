@@ -1,0 +1,19 @@
+layer,model,evaluation,metric,value,comparison_reference,change_percentage_points,notes
+human,TF-IDF + Logistic Regression,historical_test,recall,0.984747,,,Untouched 31225-email historical test
+human,TF-IDF + Logistic Regression,controlled_synthetic,detection_rate,0.554,historical_test_recall,-43.0747,Positive-only 500-message controlled synthetic set
+human,DistilBERT,historical_test,recall,0.991601,,,Untouched 31225-email historical test
+human,DistilBERT,controlled_synthetic,detection_rate,0.362,historical_test_recall,-62.9601,Positive-only 500-message controlled synthetic set
+human,DistilBERT,controlled_synthetic_misses,high_confidence_miss_rate_90,0.909,,,290 of 319 misses at >=90% raw confidence
+human,DistilBERT,controlled_synthetic_misses,high_confidence_miss_rate_99,0.730,,,233 of 319 misses at >=99% raw confidence
+network,hist_gradient_boosting,validation,recall,0.975577060031,,,Internal leakage-resistant validation
+network,hist_gradient_boosting,validation,false_positive_rate,0.08588518882242657,,,Internal leakage-resistant validation
+network,hist_gradient_boosting,validation,balanced_accuracy,0.9448459356042866,,,Internal leakage-resistant validation
+network,hist_gradient_boosting,official_final_test,recall,0.9853083914232772,validation_recall,0.9731,Untouched official 82332-row test
+network,hist_gradient_boosting,official_final_test,false_positive_rate,0.2628918918918919,validation_fpr,17.7007,Untouched official 82332-row test
+network,hist_gradient_boosting,official_final_test,balanced_accuracy,0.8612082497656927,validation_balanced_accuracy,-8.3638,Untouched official 82332-row test
+network,hist_gradient_boosting,sttl_neutralized,recall,0.9767081395835951,validation_recall,0.1131,Pre-specified controlled ablation
+network,hist_gradient_boosting,sttl_neutralized,false_positive_rate,0.5884296044995982,validation_fpr,50.2544,Pre-specified controlled ablation
+network,hist_gradient_boosting,sttl_neutralized,balanced_accuracy,0.6941392675419984,validation_balanced_accuracy,-25.0707,Pre-specified controlled ablation
+network,hist_gradient_boosting,ttl_family_neutralized,recall,0.9764567885719073,validation_recall,0.0879,Pre-specified controlled ablation
+network,hist_gradient_boosting,ttl_family_neutralized,false_positive_rate,0.8407285063833586,validation_fpr,75.4843,Pre-specified controlled ablation
+network,hist_gradient_boosting,ttl_family_neutralized,balanced_accuracy,0.5678641410942743,validation_balanced_accuracy,-37.6982,Pre-specified controlled ablation
