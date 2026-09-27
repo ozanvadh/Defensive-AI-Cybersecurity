@@ -28,6 +28,8 @@ The main conclusion is not that the model fails universally. It is that excellen
 - [Robustness results](documentation/robustness_results.md)
 - [Final untouched test evaluation](documentation/final_test_evaluation.md)
 - [Reproducibility audit](documentation/reproducibility_audit.md)
+- [Captured Python environment](network_environment.txt)
+- [Consolidated results table](results/results_summary.csv)
 
 ## Scientific safeguards
 
@@ -39,6 +41,7 @@ The main conclusion is not that the model fails universally. It is that excellen
 - Frozen models and default thresholds used for robustness and final testing
 - Official test declared permanently consumed after final evaluation
 - Controlled feature ablations explicitly distinguished from realistic adversarial attacks
+- Python 3.13.5 and the project-machine package environment archived for reproducibility
 
 ## Scope
 
