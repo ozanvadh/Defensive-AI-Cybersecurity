@@ -2,7 +2,7 @@
 
 ## Reproducible components
 
-The repository contains scripts for raw-data auditing, leakage analysis, group-preserving splitting, EDA, baseline training, nonlinear training, interpretation, pre-specified robustness testing, and final test evaluation.
+The repository contains scripts for raw-data auditing, leakage analysis, group-preserving splitting, EDA, baseline training, nonlinear training, interpretation, pre-specified robustness testing, final test evaluation, and publication-figure generation.
 
 ## Data identity
 
@@ -23,13 +23,34 @@ Official raw modeling files were preserved outside version-controlled source cod
 - official test consumed only after development decisions were frozen
 - no post-test tuning permitted for this version
 
+## Captured software environment
+
+The project-machine environment was captured after Network Layer v1 completion and archived as `../network_environment.txt`.
+
+Interpreter:
+
+- Python 3.13.5
+
+Key scientific packages:
+
+- scikit-learn 1.9.1
+- pandas 3.0.6
+- NumPy 2.5.3
+- SciPy 1.18.1
+- joblib 1.6.0
+- Matplotlib 3.11.2
+
+The archived environment file contains the complete `pip freeze` output supplied from the project machine. Because the environment snapshot was captured at project completion rather than automatically recorded at the instant each artifact was trained, it should be described as the captured project environment rather than proof that no package changed during the preceding modeling session.
+
 ## Test-set status
 
 The official test partition is now permanently consumed for Network Layer v1. A revised model informed by final-test results must not be presented as having an unbiased evaluation on the same test set.
 
-## Remaining environment requirement
+## Reproduction boundaries
 
-Exact package versions from the machine on which the final model artifacts were trained should be archived if they have not already been captured. Repository scripts specify the algorithms and fixed seeds, but exact library versions are necessary for the strongest environment-level reproducibility claim.
+The repository records dataset hashes, preprocessing and leakage policies, fixed random seed, model configurations, evaluation protocols, result summaries, and the captured software environment. These substantially strengthen computational reproducibility.
+
+Some limitations remain. Exact hardware, operating-system build, low-level numerical libraries, and an automatically generated environment snapshot from the precise training instant were not independently recorded. Small numerical differences may therefore be possible across systems even when package versions match.
 
 ## Scope
 
