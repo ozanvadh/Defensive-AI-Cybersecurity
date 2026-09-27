@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="610" viewBox="0 0 1100 610">
+<rect width="1100" height="610" fill="white"/>
+<text x="550" y="34" text-anchor="middle" font-family="Arial" font-size="23" font-weight="bold">Cross-Layer Distribution-Shift Failure Modes</text>
+<text x="550" y="58" text-anchor="middle" font-family="Arial" font-size="13">Separate metrics are shown because the two experiments are not statistically pooled</text>
+<rect x="45" y="85" width="490" height="450" rx="8" fill="#fafafa" stroke="#bbb"/>
+<rect x="565" y="85" width="490" height="450" rx="8" fill="#fafafa" stroke="#bbb"/>
+<text x="290" y="118" text-anchor="middle" font-family="Arial" font-size="19" font-weight="bold">Human Layer</text>
+<text x="810" y="118" text-anchor="middle" font-family="Arial" font-size="19" font-weight="bold">Network Layer</text>
+<text x="290" y="145" text-anchor="middle" font-family="Arial" font-size="14">DistilBERT positive-class detection</text>
+<text x="810" y="145" text-anchor="middle" font-family="Arial" font-size="14">HGB benign false-positive rate</text>
+<line x1="105" y1="180" x2="105" y2="445" stroke="black"/><line x1="105" y1="445" x2="490" y2="445" stroke="black"/>
+<line x1="625" y1="180" x2="625" y2="445" stroke="black"/><line x1="625" y1="445" x2="1010" y2="445" stroke="black"/>
+<g font-family="Arial" font-size="12">
+<text x="95" y="450" text-anchor="end">0%</text><text x="95" y="397" text-anchor="end">20%</text><text x="95" y="344" text-anchor="end">40%</text><text x="95" y="291" text-anchor="end">60%</text><text x="95" y="238" text-anchor="end">80%</text><text x="95" y="185" text-anchor="end">100%</text>
+<text x="615" y="450" text-anchor="end">0%</text><text x="615" y="397" text-anchor="end">20%</text><text x="615" y="344" text-anchor="end">40%</text><text x="615" y="291" text-anchor="end">60%</text><text x="615" y="238" text-anchor="end">80%</text><text x="615" y="185" text-anchor="end">100%</text>
+<rect x="165" y="182" width="105" height="263" fill="#4C78A8"/><text x="217" y="174" text-anchor="middle">99.16%</text>
+<rect x="325" y="349" width="105" height="96" fill="#F58518"/><text x="377" y="341" text-anchor="middle">36.20%</text>
+<text x="217" y="472" text-anchor="middle">Historical test</text><text x="377" y="472" text-anchor="middle">Synthetic set</text>
+<text x="290" y="505" text-anchor="middle" font-size="13">Failure direction: malicious → legitimate</text>
+<rect x="665" y="422" width="70" height="23" fill="#54A24B"/><text x="700" y="414" text-anchor="middle">8.59%</text>
+<rect x="755" y="375" width="70" height="70" fill="#E45756"/><text x="790" y="367" text-anchor="middle">26.29%</text>
+<rect x="845" y="289" width="70" height="156" fill="#B279A2"/><text x="880" y="281" text-anchor="middle">58.84%</text>
+<rect x="935" y="222" width="70" height="223" fill="#FF9DA6"/><text x="970" y="214" text-anchor="middle">84.07%</text>
+<text x="700" y="472" text-anchor="middle">Validation</text><text x="790" y="472" text-anchor="middle">Official test</text><text x="880" y="472" text-anchor="middle">sttl</text><text x="970" y="472" text-anchor="middle">TTL family</text>
+<text x="810" y="505" text-anchor="middle" font-size="13">Failure direction: benign → malicious</text>
+</g>
+<text x="550" y="575" text-anchor="middle" font-family="Arial" font-size="13">Common pattern: strong familiar-distribution performance did not guarantee stable behavior after the information distribution changed.</text>
+</svg>
