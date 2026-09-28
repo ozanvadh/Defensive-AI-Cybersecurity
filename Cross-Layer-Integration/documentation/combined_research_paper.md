@@ -421,6 +421,29 @@ The official-test FPR exceeded validation FPR by **17.70 percentage points**. A 
 
 The intervals reinforce the descriptive conclusion that the main validation-to-test change was not a collapse in attack sensitivity. It was a large deterioration in benign discrimination.
 
+
+### 8.6 Supplementary Multi-Seed Stability
+
+During publication preparation, the stronger Network model was retrained on the **development partition only** using the same fixed hyperparameters and five predeclared seeds: 7, 17, 29, 42, and 73. The consumed official test partition was not read.
+
+This analysis was post-hoc and is therefore treated as supplementary rather than part of the original frozen v1 protocol.
+
+Across the five seeds:
+
+| Metric | Mean | SD | Min | Max |
+| --- | ---: | ---: | ---: | ---: |
+| Accuracy | 95.50% | 0.06 pp | 95.45% | 95.59% |
+| Attack recall | 97.50% | 0.08 pp | 97.40% | 97.58% |
+| False-positive rate | 8.77% | 0.14 pp | 8.59% | 8.91% |
+| Balanced accuracy | 94.37% | 0.07 pp | 94.31% | 94.48% |
+| ROC AUC | 99.28% | 0.01 pp | 99.27% | 99.29% |
+
+The supplementary environment used scikit-learn 1.8.0 rather than the captured project-machine 1.9.1 environment. However, the seed-42 run reproduced the already verified v1 validation metrics exactly to the precision recorded in the project.
+
+The observed seed variation is small relative to the official-test and controlled robustness gaps. This makes ordinary HGB seed variation an implausible explanation for the much larger FPR changes documented in the primary study.
+
+Full results are preserved in `Network-Layer-Intrusion-Detection/documentation/seed_stability.md`.
+
 ---
 
 ## 9. Cross-Layer Synthesis
@@ -611,9 +634,11 @@ The two layers use different datasets, metrics, models, populations, and shift m
 
 Neither layer establishes that its model is safe for autonomous production blocking. Real deployment would require contemporary external validation, monitoring, calibration, operational testing, and additional safety controls.
 
-### 12.9 Single-Realization and Calibration Limits
+### 12.9 Training-Run Variance and Calibration Limits
 
-The main nonlinear/contextual model results are based on the frozen model realizations used in v1 rather than a full multi-seed training-distribution study. The Network pipeline fixes seed 42 and the Human transformer uses a fixed seed during training. This improves reproducibility but does not quantify training-run variance.
+The Human transformer result is based on the frozen v1 model realization rather than a completed multi-seed DistilBERT training-distribution study. The Human training pipeline uses a fixed seed, which improves reproducibility but does not quantify transformer training-run variance.
+
+For the Network HGB model, a five-seed post-hoc supplementary analysis was completed on development/validation only. Validation FPR varied from 8.59% to 8.91% and balanced accuracy from 94.31% to 94.48%, substantially smaller than the primary distribution-shift effects. Because that analysis was added after v1 completion and used a slightly different scikit-learn version, it is reported as supporting stability evidence rather than part of the original confirmatory design.
 
 The Human confidence analysis is also descriptive rather than a complete calibration study. Because the controlled synthetic set is positive-only, it cannot support a full shifted-distribution reliability analysis across both classes. Future work should report multi-seed variation, Brier score, expected calibration error, and reliability diagrams on a new two-class independent holdout.
 
@@ -653,7 +678,7 @@ Any future school, competition, conference, or publication submission should add
 
 ## 15. Reproducibility and Research Integrity
 
-The repository preserves source code, methodological documentation, result summaries, hashes, evaluation policies, and a pre-registered next-stage external-validation protocol for both layers.
+The repository preserves source code, methodological documentation, result summaries, hashes, evaluation policies, supplementary seed-stability analysis, and a pre-registered next-stage external-validation protocol.
 
 ### 15.1 Human Layer
 
@@ -681,7 +706,7 @@ The Network Layer records:
 - pre-specified robustness protocol;
 - machine-readable verified metrics;
 - final-test results;
-- captured project-machine Python environment.
+- captured project-machine package environment, with Python 3.13.5 documented separately.
 
 A final independent audit reran the Network pipeline from the preserved raw CSVs, reproduced the development/validation split, validation metrics, feature-importance ordering, and final-test metrics, and detected an earlier mismatch between written robustness values and the committed robustness code. The robustness experiment was rerun from the frozen protocol and the documentation was corrected before final project integration.
 
