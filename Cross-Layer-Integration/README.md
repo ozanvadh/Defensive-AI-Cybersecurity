@@ -27,6 +27,8 @@ The metrics are intentionally not pooled. The Human and Network studies use diff
 - [Integration framework](documentation/integration_framework.md)
 - [Quantitative synthesis](documentation/quantitative_synthesis.md)
 - [Machine-readable cross-layer results](results/cross_layer_results.csv)
+- [Statistical uncertainty and operational analysis](documentation/statistical_uncertainty_and_operational_analysis.md)
+- [External-validation preregistration](documentation/external_validation_preregistration.md)
 - [Cross-layer figures](results/figures/)
 
 ## Human Layer in One Sentence
