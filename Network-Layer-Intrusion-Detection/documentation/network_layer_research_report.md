@@ -121,6 +121,29 @@ The principal generalization gap was benign discrimination. Stronger-model FPR i
 
 The controlled TTL ablations and the official test shift both reveal sensitivity in benign discrimination, but the study does **not** establish that TTL dependence caused the final-test gap.
 
+## Statistical Uncertainty and Seed Stability
+
+Wilson 95% intervals from the preserved confusion-matrix counts provide uncertainty around the main Network rates:
+
+| Condition | Metric | Estimate | 95% Wilson CI |
+| --- | --- | ---: | ---: |
+| HGB validation | Attack recall | 97.56% | 97.35%-97.75% |
+| HGB validation | FPR | 8.59% | 8.08%-9.12% |
+| HGB official test | Attack recall | 98.53% | 98.42%-98.64% |
+| HGB official test | FPR | 26.29% | 25.84%-26.74% |
+| `sttl` neutralized | Attack recall | 97.67% | 97.47%-97.85% |
+| `sttl` neutralized | FPR | 58.84% | 57.93%-59.75% |
+| TTL family neutralized | Attack recall | 97.65% | 97.45%-97.83% |
+| TTL family neutralized | FPR | 84.07% | 83.38%-84.74% |
+
+The official-test FPR exceeded validation FPR by 17.70 percentage points, with an approximate Newcombe 95% interval of 17.01 to 18.38 points.
+
+A post-hoc five-seed supplementary validation analysis used seeds 7, 17, 29, 42, and 73 while keeping all HGB hyperparameters fixed and never reading the consumed official test. Validation FPR ranged from 8.59% to 8.91%, balanced accuracy from 94.31% to 94.48%, and ROC AUC from 99.27% to 99.29%.
+
+This supplementary analysis used scikit-learn 1.8.0 rather than the captured project-machine 1.9.1 environment, but the seed-42 run reproduced the verified v1 validation metrics exactly to recorded precision. The small seed variation is far smaller than the observed shift-related FPR changes.
+
+Full supplementary results are preserved in `seed_stability.md`.
+
 ## Independent Verification
 
 A clean rerun from the preserved raw CSVs reproduced the development/validation split exactly and reproduced the documented validation and final-test metrics. This audit also detected and corrected an earlier transcription/execution mismatch in the robustness-results documentation. The corrected robustness values above are the values produced by the committed robustness code.
