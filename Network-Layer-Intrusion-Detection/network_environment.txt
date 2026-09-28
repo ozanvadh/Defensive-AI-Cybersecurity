@@ -1,4 +1,3 @@
-Python==3.13.5
 altair==6.3.0
 annotated-doc==0.0.5
 anyio==4.15.1
