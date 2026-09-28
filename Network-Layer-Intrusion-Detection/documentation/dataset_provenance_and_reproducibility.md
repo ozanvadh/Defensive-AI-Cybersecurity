@@ -166,24 +166,22 @@ Cleaning and transformation will be performed through reproducible scripts rathe
 
 ## Reproducibility Policy
 
-The Network Layer will record the computational environment before the first model is trained.
+The project records the information that was actually preserved during Network Layer v1:
 
-At minimum, the project will preserve:
-
-- operating system;
 - Python version;
-- exact package versions;
-- scikit-learn version;
-- model-library versions used later;
-- CPU/GPU information where relevant;
-- random seeds;
-- preprocessing configuration;
+- captured project-machine package versions;
+- fixed random seed;
+- preprocessing and leakage policy;
 - model hyperparameters;
-- dataset hashes;
-- trained-model hashes;
-- evaluation-script configuration.
+- raw-dataset hashes;
+- evaluation and robustness scripts;
+- machine-readable validation, robustness, and final-test metrics.
 
-A dependency snapshot will be captured before modeling rather than reconstructed after the experiments.
+The package snapshot was captured at project completion rather than automatically at the exact instant each model artifact was trained. It is therefore described as the **captured project-machine environment**, not as proof that no package changed during the modeling session.
+
+Python 3.13.5 is documented separately from the package snapshot. The package file `network_environment.txt` preserves package-version output rather than representing Python itself as a pip package.
+
+Exact operating-system build, hardware details, trained-model artifact hashes, and an automatically captured environment from the precise original training instant were not independently archived for v1. These are reproducibility limitations rather than inferred values.
 
 ## Seed Policy
 
@@ -226,17 +224,17 @@ Because intrusion-detection systems can generate operational burden through fals
 
 ## Distribution-Shift Evaluation
 
-The official test set will provide the primary held-out evaluation for the UNSW-NB15 modeling protocol.
+The official test set provided the primary held-out evaluation for the UNSW-NB15 modeling protocol and was consumed only after model-development and robustness decisions were frozen.
 
-A separate robustness experiment will later evaluate the frozen models under a meaningfully different traffic distribution. The exact external dataset or shift protocol will be selected only after the primary dataset has been inspected and the leakage structure is understood.
+After the training data were inspected and the leakage structure was understood, a separate robustness protocol was pre-specified and committed before execution. It evaluated the frozen stronger model under controlled feature-information transformations, including `sttl` neutralization, TTL-family neutralization, and categorical-novelty conditions.
 
-Performance on such a dataset will be described as distribution-shift or external robustness evidence and will not automatically be generalized to real-world deployment.
+These controlled transformations are diagnostic stress tests. They are not described as realistic adversarial attacks or as external real-world traffic, and their results are not automatically generalized to deployment.
 
 ## Known Scope Limitation
 
 UNSW-NB15 was generated in a controlled cyber-range environment rather than collected as an unrestricted sample of modern production networks. Therefore, performance on UNSW-NB15 alone cannot establish real-world deployment performance.
 
-This limitation is part of the motivation for the planned distribution-shift evaluation.
+This limitation motivated the completed distribution-shift and robustness evaluation.
 
 ## Citation
 
@@ -244,4 +242,6 @@ Moustafa, N., & Slay, J. (2015). UNSW-NB15: A comprehensive data set for network
 
 ## Record Status
 
-This document was created before Network Layer dataset processing or model training. Raw-file hashes and structural integrity information have now been recorded. Exact environment versions and preprocessing decisions will be appended only after they are observed directly.
+This document was created before Network Layer dataset processing or model training and was later updated with observed raw-file hashes, structural integrity results, feature-policy decisions, and final reproducibility limitations. The completed v1 environment record is preserved in `../network_environment.txt`, with Python 3.13.5 documented separately in the reproducibility audit.
+
+The official test set has been consumed for v1, so future model changes informed by these results require a new independent holdout for an unbiased final evaluation.
