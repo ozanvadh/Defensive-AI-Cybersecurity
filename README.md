@@ -24,6 +24,7 @@ The two experiments are not pooled statistically. Their datasets, populations, m
 ## Start Here
 
 - **[Combined research paper](Cross-Layer-Integration/documentation/combined_research_paper.md)**: complete integrated paper covering both layers
+- **[Final scientific audit](FINAL_SCIENTIFIC_AUDIT.md)**: repository-wide verification, corrections, and residual limitations
 - **[Cross-layer integration](Cross-Layer-Integration/README.md)**: synthesis, quantitative comparison, figures, and integration framework
 - **[Human Layer](Phase-1-Phishing-Detection/README.md)**: phishing-email classification study
 - **[Network Layer](Network-Layer-Intrusion-Detection/README.md)**: intrusion-detection study
