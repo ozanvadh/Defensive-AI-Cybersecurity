@@ -984,7 +984,11 @@ These synthetic results should be interpreted as a robustness stress test, not a
 
 The central finding is that strong held-out performance within a familiar data distribution does not by itself establish robustness to materially different text distributions. Evaluating defensive classifiers across independent datasets, writing styles, time periods, and distribution shifts is therefore important alongside conventional accuracy, recall, F1, and false-positive measurements.
 
-Future work should evaluate additional independent holdouts, newer real-world email corpora, broader controlled generator coverage, and explicit confidence-calibration methods without reusing the consumed test or synthetic evaluation sets for model tuning. The broader Defensive AI Cybersecurity project will also extend this layered evaluation framework to the planned network-layer component.
+Future work should evaluate additional independent holdouts, newer real-world email corpora, broader controlled generator coverage, explicit confidence-calibration methods, and multi-seed transformer stability without reusing the consumed test or synthetic evaluation sets for model tuning.
+
+A next-stage external-validation protocol has now been frozen in `../Cross-Layer-Integration/documentation/external_validation_preregistration.md`. It requires a two-class independent email holdout, provenance and overlap auditing before inference, no tuning of the frozen v1 models, Wilson intervals for primary rates, and calibration analysis where probabilities are available.
+
+The Network Layer is now complete and integrated with this Human Layer in the combined cross-layer paper.
 
 ---
 
