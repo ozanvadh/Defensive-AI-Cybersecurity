@@ -202,3 +202,28 @@ The repository supports the following bounded conclusion:
 The evidence does not support stronger universal claims about all AI-generated phishing, all network attacks, production deployment, or a universally superior model family.
 
 **Final audit status: PASS. Defensive AI Cybersecurity v1 is complete and review-ready, subject to the documented limitations above.**
+
+
+---
+
+## Post-Audit Publication-Strengthening Addendum
+
+After the v1 audit passed, a graduate-level peer-review simulation identified areas where the manuscript could be strengthened without changing the frozen v1 experiments.
+
+The following work was subsequently completed:
+
+- expanded the combined literature review from 11 to 19 references;
+- added Wilson uncertainty intervals for primary Network rates;
+- added Newcombe intervals for validation-to-test rate differences;
+- added a base-rate/positive-predictive-value scenario analysis;
+- added explicit counter-hypotheses for both Human and Network shifts;
+- executed a five-seed supplementary HGB validation analysis without reopening the official test;
+- added a frozen external-validation preregistration;
+- added external-Human and multi-seed evaluation scripts;
+- updated layer-specific reports and repository navigation.
+
+The five-seed Network analysis found only small internal variation. Seed-42 exactly reproduced the already verified v1 validation metrics to recorded precision in the supplementary audit environment.
+
+These additions strengthen the manuscript, but they do not erase the most important remaining limitation: no qualifying new contemporary independent external holdout has yet been executed with the frozen v1 models.
+
+**Updated status:** v1 remains scientifically complete and internally audited. Publication preparation is substantially strengthened. External validation remains the principal outstanding empirical requirement for a stronger high-tier generalization claim.
