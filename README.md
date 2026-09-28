@@ -25,6 +25,9 @@ The two experiments are not pooled statistically. Their datasets, populations, m
 
 - **[Combined research paper](Cross-Layer-Integration/documentation/combined_research_paper.md)**: complete integrated paper covering both layers
 - **[Final scientific audit](FINAL_SCIENTIFIC_AUDIT.md)**: repository-wide verification, corrections, and residual limitations
+- **[Publication revision log](PUBLICATION_REVISION_LOG.md)**: post-audit upgrades for graduate-level review
+- [External-validation preregistration](Cross-Layer-Integration/documentation/external_validation_preregistration.md)
+- [Statistical uncertainty & operational analysis](Cross-Layer-Integration/documentation/statistical_uncertainty_and_operational_analysis.md)
 - **[Cross-layer integration](Cross-Layer-Integration/README.md)**: synthesis, quantitative comparison, figures, and integration framework
 - **[Human Layer](Phase-1-Phishing-Detection/README.md)**: phishing-email classification study
 - **[Network Layer](Network-Layer-Intrusion-Detection/README.md)**: intrusion-detection study
@@ -150,7 +153,9 @@ The project includes:
 - permutation importance and error analysis;
 - machine-readable result summaries;
 - captured Network project-machine environment;
-- an independent computational rerun of the Network pipeline that reproduced core metrics and corrected an earlier robustness-reporting mismatch before integration.
+- an independent computational rerun of the Network pipeline that reproduced core metrics and corrected an earlier robustness-reporting mismatch before integration;
+- a five-seed supplementary Network validation analysis showing only small internal seed variation;
+- a frozen next-stage external-validation protocol that prohibits tuning on the new holdout.
 
 Both final test sets are considered consumed for v1. Future tuned models require new independent holdouts for unbiased final evaluation.
 
