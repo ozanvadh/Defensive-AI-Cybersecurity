@@ -986,7 +986,7 @@ The central finding is that strong held-out performance within a familiar data d
 
 Future work should evaluate additional independent holdouts, newer real-world email corpora, broader controlled generator coverage, explicit confidence-calibration methods, and multi-seed transformer stability without reusing the consumed test or synthetic evaluation sets for model tuning.
 
-A next-stage external-validation protocol has now been frozen in `../Cross-Layer-Integration/documentation/external_validation_preregistration.md`. It requires a two-class independent email holdout, provenance and overlap auditing before inference, no tuning of the frozen v1 models, Wilson intervals for primary rates, and calibration analysis where probabilities are available.
+A next-stage external-validation protocol has now been frozen in `../../Cross-Layer-Integration/documentation/external_validation_preregistration.md`. It requires a two-class independent email holdout, provenance and overlap auditing before inference, no tuning of the frozen v1 models, Wilson intervals for primary rates, and calibration analysis where probabilities are available.
 
 The Network Layer is now complete and integrated with this Human Layer in the combined cross-layer paper.
 
