@@ -40,23 +40,39 @@ Phishing-email detection has been studied using lexical, structural, statistical
 
 Transformer architectures offer a different representation strategy. BERT introduced bidirectional transformer pre-training for downstream NLP tasks [2], and DistilBERT later compressed the BERT architecture through knowledge distillation while retaining much of its language-understanding performance [3]. Recent phishing-detection work has also reported strong performance from transformer-based classifiers [4].
 
+### 2.2 Generative AI and Phishing Robustness
+
 The growing use of generative AI creates an additional evaluation problem. Controlled research has documented stylistic differences in AI-generated phishing-class content [5], and a systematic review of LLM use in phishing research identified both offensive-generation and defensive-detection applications while noting limitations in dataset standardization [6]. Human-subject research on AI-generated deceptive messaging further motivates studying whether natural, contextually fluent communication changes the behavior of defensive systems [7].
 
-### 2.2 Confidence and Distribution Shift
+Recent studies have begun testing phishing detectors directly against AI-generated or LLM-rephrased messages. Mohan et al. compared lexical and transformer-based representations under generative-AI stress testing and reported substantial differences between ordinary test performance and adversarial/synthetic performance [18]. Ferrell et al. similarly found that LLM-rephrased phishing and safe email could reduce the accuracy of existing detectors, with the magnitude depending on model family [19]. These studies reinforce the need to separate familiar-distribution accuracy from robustness claims. They also show that model ordering under synthetic shift is not universal: results depend on the training corpus, representation, generation procedure, and evaluation design.
+
+### 2.3 Confidence and Out-of-Distribution Behavior
 
 High neural-network confidence does not necessarily imply calibrated correctness. Guo et al. showed that modern neural classifiers can be poorly calibrated [8]. Ovadia et al. further demonstrated that predictive uncertainty can degrade under dataset shift [9]. These findings are relevant to the Human Layer because the transformer is evaluated not only for classification performance but also for whether its raw confidence meaningfully signals failure under the controlled synthetic shift.
 
-### 2.3 Network Intrusion Detection
+### 2.4 Network Intrusion Detection and Dataset Validity
 
 The Network Layer uses UNSW-NB15, a public intrusion-detection benchmark introduced by Moustafa and Slay [11]. The dataset was generated in a controlled cyber-range and contains normal traffic together with multiple attack categories. This structure makes it useful for reproducible model comparison, but its controlled origin also limits claims about current production-network performance.
 
-The Network Layer therefore treats benchmark performance as one component of evaluation rather than as proof of deployment readiness. Leakage auditing, feature-reliance analysis, controlled stress tests, false-positive analysis, and untouched final evaluation are used to investigate how much the model's apparent performance depends on the information distribution.
+Longstanding intrusion-detection literature has warned that machine-learning performance in a closed benchmark setting can differ sharply from operational performance. Sommer and Paxson emphasized the semantic, evaluation, and deployment gap between benchmark machine learning and real network intrusion detection [12]. Ring et al. later surveyed network-intrusion datasets and highlighted that recording environment, traffic diversity, labeling, and dataset construction materially affect what an evaluation can support [13].
 
-### 2.4 Cross-Layer Research Gap
+Dataset construction itself can introduce misleading conclusions. Engelen, Rimmer, and Joosen documented feature-extraction and labeling problems in CICIDS2017 and showed why benchmark integrity must be examined rather than assumed [17]. The present study does not use CICIDS2017, but that case is directly relevant methodologically: benchmark quality, leakage, and collection artifacts can materially alter apparent model performance.
+
+### 2.5 Distribution Shift, Concept Drift, and Security-ML Pitfalls
+
+Security machine learning is particularly exposed to non-stationarity. Shyaa et al. surveyed concept and feature drift in intrusion detection and identified distributional change as a central challenge for adaptive IDS research [15]. Arp et al. analyzed recurring methodological pitfalls in machine-learning security research, including leakage, inappropriate sampling, unrealistic evaluation assumptions, and conclusions that exceed the evidence [14].
+
+These concerns motivate the present study's emphasis on leakage auditing, frozen evaluation conditions, explicit shift testing, and bounded claims. The project does not assume that one stress test represents deployment. Instead, it asks whether strong benchmark results remain stable when information available to a frozen model changes.
+
+False positives also have a specific operational importance in intrusion detection. Axelsson's analysis of the base-rate fallacy showed that even detectors with high attack sensitivity can produce low alert precision when attacks are rare unless false-alarm rates are extremely small [16]. This motivates treating FPR as a primary result rather than a secondary metric.
+
+### 2.6 Cross-Layer Research Gap
 
 The two domains have different operational costs. A phishing detector that produces false negatives can allow malicious communication to pass as legitimate. An intrusion detector that produces excessive false positives can overwhelm analysts or make automated blocking impractical.
 
 The project therefore does not ask whether one universal model can solve both tasks. Instead, it asks whether a common evaluation principle holds across distinct defensive layers: **does strong familiar-distribution performance remain stable after the information distribution changes?**
+
+The contribution is not a claim that distribution shift is newly discovered. Rather, it is an end-to-end cross-layer demonstration using frozen models, explicit leakage controls, untouched final evaluation, controlled stress testing, confidence/error analysis, and layer-specific failure interpretation.
 
 ---
 
@@ -102,6 +118,16 @@ Although the two layers use different data and models, they follow several commo
 - limit conclusions to the population and conditions actually evaluated.
 
 The layers remain statistically separate. No pooled cross-layer accuracy, significance test, or combined performance score is calculated.
+
+### 4.2 Statistical and Operational Analysis
+
+The analysis distinguishes descriptive benchmark metrics from inferential uncertainty.
+
+For binomial detection or false-positive rates, 95% Wilson score intervals are used where counts are available. For the change in Network false-positive rate and recall between internal validation and the official test partition, an independent-proportions Newcombe interval is reported as a descriptive uncertainty interval around the observed percentage-point difference.
+
+The Human synthetic comparison uses the exact paired McNemar test because both frozen classifiers evaluated the same 500 messages. No cross-layer significance test is performed because the Human and Network experiments involve different populations, labels, models, and shift mechanisms.
+
+A base-rate scenario analysis is included for the Network final-test detector to illustrate the relationship among attack prevalence, true-positive rate, false-positive rate, and positive predictive value. These are hypothetical prevalence calculations, not estimates of deployment prevalence or production precision.
 
 ---
 
@@ -373,6 +399,28 @@ The stronger model retained 98.53% attack recall, but FPR increased from 8.59% i
 
 The controlled TTL ablations and the official test gap are distinct forms of evidence. The project does not claim that TTL dependence caused the official test-set degradation.
 
+
+### 8.5 Statistical Uncertainty Around Network Generalization
+
+The Network confusion-matrix counts allow uncertainty around the primary rate estimates to be reported directly.
+
+For the stronger Histogram Gradient Boosting model:
+
+| Quantity | Point estimate | 95% Wilson CI |
+| --- | ---: | ---: |
+| Validation attack recall | 97.56% | 97.35%-97.75% |
+| Validation false-positive rate | 8.59% | 8.08%-9.12% |
+| Official-test attack recall | 98.53% | 98.42%-98.64% |
+| Official-test false-positive rate | 26.29% | 25.84%-26.74% |
+| `sttl`-neutralized attack recall | 97.67% | 97.47%-97.85% |
+| `sttl`-neutralized false-positive rate | 58.84% | 57.93%-59.75% |
+| TTL-family-neutralized attack recall | 97.65% | 97.45%-97.83% |
+| TTL-family-neutralized false-positive rate | 84.07% | 83.38%-84.74% |
+
+The official-test FPR exceeded validation FPR by **17.70 percentage points**. A Newcombe 95% interval for this difference is approximately **17.01 to 18.38 percentage points**. Attack recall increased by **0.97 percentage points**, with an approximate Newcombe 95% interval of **0.75 to 1.20 percentage points**.
+
+The intervals reinforce the descriptive conclusion that the main validation-to-test change was not a collapse in attack sensitivity. It was a large deterioration in benign discrimination.
+
 ---
 
 ## 9. Cross-Layer Synthesis
@@ -493,6 +541,32 @@ For the Network Layer, the untouched official test revealed a substantial benign
 
 In both cases, withholding evaluation data until development decisions were frozen materially improved the interpretation of the results.
 
+
+### 11.6 Base-Rate Scenario Analysis
+
+The Network Layer's false-positive behavior has implications that accuracy and recall alone do not show. Following the base-rate concern formalized by Axelsson [16], positive predictive value depends strongly on the underlying prevalence of attacks.
+
+Using the stronger model's **official-test** true-positive rate of 98.53% and false-positive rate of 26.29%, the implied alert precision under several purely hypothetical attack prevalences is:
+
+| Hypothetical attack prevalence | Implied positive predictive value |
+| --- | ---: |
+| 0.1% | 0.37% |
+| 1% | 3.65% |
+| 5% | 16.48% |
+| 10% | 29.40% |
+
+These values are **not deployment estimates** because UNSW-NB15 is not a sample of current production prevalence. Their purpose is to show mathematically why a detector can have excellent recall and still generate an impractical alert stream when false-positive rates are high and attacks are uncommon.
+
+### 11.7 Alternative Explanations and Counter-Hypotheses
+
+The Human synthetic decline should not be attributed to AI authorship alone. Several factors changed simultaneously between the historical and synthetic evaluations, including corpus age, source composition, communication style, generation process, message length distribution, and the safety constraints used during synthesis.
+
+Some alternative explanations were partially tested. Message length did not meaningfully separate detected from missed synthetic samples, and generator-source differences were smaller than communication-style differences. However, the study cannot isolate a single causal factor. A factorial external study would be required to separate authorship, recency, style, and corpus-source effects.
+
+The Network official-test gap also has multiple plausible explanations. It could reflect changes in benign feature distributions, attack-family composition, collection conditions, or dependencies learned from training-specific feature relationships. The controlled TTL ablations establish model dependence on TTL-related information but do not identify the cause of the official-test gap.
+
+These unresolved counter-hypotheses are a reason to interpret the project as evidence of **distribution sensitivity** rather than evidence for one universal mechanism.
+
 ---
 
 ## 12. Limitations
@@ -537,6 +611,18 @@ The two layers use different datasets, metrics, models, populations, and shift m
 
 Neither layer establishes that its model is safe for autonomous production blocking. Real deployment would require contemporary external validation, monitoring, calibration, operational testing, and additional safety controls.
 
+### 12.9 Single-Realization and Calibration Limits
+
+The main nonlinear/contextual model results are based on the frozen model realizations used in v1 rather than a full multi-seed training-distribution study. The Network pipeline fixes seed 42 and the Human transformer uses a fixed seed during training. This improves reproducibility but does not quantify training-run variance.
+
+The Human confidence analysis is also descriptive rather than a complete calibration study. Because the controlled synthetic set is positive-only, it cannot support a full shifted-distribution reliability analysis across both classes. Future work should report multi-seed variation, Brier score, expected calibration error, and reliability diagrams on a new two-class independent holdout.
+
+### 12.10 External Validation
+
+Neither layer has yet been evaluated under a newly collected or independently sourced contemporary external holdout that is fully separate from the completed v1 benchmark ecosystem. This is the most important remaining limitation for publication-level generalization claims.
+
+A frozen next-stage protocol is preserved in `external_validation_preregistration.md`. The consumed v1 test and synthetic sets will not be reused as unbiased final holdouts after future model changes.
+
 ---
 
 ## 13. Ethical and Safety Considerations
@@ -567,7 +653,7 @@ Any future school, competition, conference, or publication submission should add
 
 ## 15. Reproducibility and Research Integrity
 
-The repository preserves source code, methodological documentation, result summaries, hashes, and evaluation policies for both layers.
+The repository preserves source code, methodological documentation, result summaries, hashes, evaluation policies, and a pre-registered next-stage external-validation protocol for both layers.
 
 ### 15.1 Human Layer
 
@@ -656,14 +742,30 @@ For defensive AI research, that distinction changes what should count as convinc
 
 [5] C. S. Eze and L. Shamir, "Analysis and Prevention of AI-Based Phishing Email Attacks," *Electronics*, vol. 13, no. 10, article 1839, 2024. https://doi.org/10.3390/electronics13101839
 
-[6] D. Sivaneswaran, C. T. E. R. Hewage, H. M. K. K. M. B. Herath, R. S. Rathore, V. K. Singh, and W. Jiang, "A systematic literature review of large language models in phishing attack generation and detection," *Array*, vol. 30, article 100775, 2026. https://doi.org/10.1016/j.array.2026.100775
+[6] D. Sivaneswaran et al., "A systematic literature review of large language models in phishing attack generation and detection," *Array*, vol. 30, article 100775, 2026. https://doi.org/10.1016/j.array.2026.100775
 
-[7] J. Francia, D. Hansen, B. Schooley, M. Taylor, S. V. Murray, R. Cornelius, and G. Snow, "Assessing AI-Generated vs. Human-Authored Spear Phishing SMS Attacks: An Empirical Study," *Journal of Cybersecurity and Privacy*, vol. 6, no. 4, article 129, 2026. https://doi.org/10.3390/jcp6040129
+[7] J. Francia et al., "Assessing AI-Generated vs. Human-Authored Spear Phishing SMS Attacks: An Empirical Study," *Journal of Cybersecurity and Privacy*, vol. 6, no. 4, article 129, 2026. https://doi.org/10.3390/jcp6040129
 
 [8] C. Guo, G. Pleiss, Y. Sun, and K. Q. Weinberger, "On Calibration of Modern Neural Networks," in *Proceedings of the 34th International Conference on Machine Learning*, PMLR 70, pp. 1321-1330, 2017. https://proceedings.mlr.press/v70/guo17a.html
 
-[9] Y. Ovadia, E. Fertig, J. Ren, Z. Nado, D. Sculley, S. Nowozin, J. Dillon, B. Lakshminarayanan, and J. Snoek, "Can You Trust Your Model's Uncertainty? Evaluating Predictive Uncertainty Under Dataset Shift," in *Advances in Neural Information Processing Systems 32*, 2019. https://proceedings.neurips.cc/paper/2019/hash/8558cb408c1d76621371888657d2eb1d-Abstract.html
+[9] Y. Ovadia et al., "Can You Trust Your Model's Uncertainty? Evaluating Predictive Uncertainty Under Dataset Shift," in *Advances in Neural Information Processing Systems 32*, 2019. https://proceedings.neurips.cc/paper/2019/hash/8558cb408c1d76621371888657d2eb1d-Abstract.html
 
 [10] A. Alhuzali, A. Alloqmani, M. Aljabri, and F. Alharbi, "Phishing-Email-Detection-Dataset," Zenodo, version 2, 2025. https://doi.org/10.5281/zenodo.17314806
 
 [11] N. Moustafa and J. Slay, "UNSW-NB15: A comprehensive data set for network intrusion detection systems (UNSW-NB15 network data set)," *2015 Military Communications and Information Systems Conference (MilCIS)*, IEEE, 2015. https://doi.org/10.1109/MILCIS.2015.7348942
+
+[12] R. Sommer and V. Paxson, "Outside the Closed World: On Using Machine Learning for Network Intrusion Detection," in *2010 IEEE Symposium on Security and Privacy*, pp. 305-316, 2010. https://doi.org/10.1109/SP.2010.25
+
+[13] M. Ring, S. Wunderlich, D. Scheuring, D. Landes, and A. Hotho, "A survey of network-based intrusion detection data sets," *Computers & Security*, vol. 86, pp. 147-167, 2019. https://doi.org/10.1016/j.cose.2019.06.005
+
+[14] D. Arp, E. Quiring, F. Pendlebury, A. Warnecke, F. Pierazzi, C. Wressnegger, L. Cavallaro, and K. Rieck, "Pitfalls in Machine Learning for Computer Security," *Communications of the ACM*, vol. 67, no. 11, pp. 104-112, 2024. https://doi.org/10.1145/3643456
+
+[15] M. A. Shyaa, N. F. Ibrahim, Z. Zainol, R. Abdullah, M. Anbar, and L. Alzubaidi, "Evolving cybersecurity frontiers: A comprehensive survey on concept drift and feature dynamics aware machine and deep learning in intrusion detection systems," *Engineering Applications of Artificial Intelligence*, vol. 137, article 109143, 2024. https://doi.org/10.1016/j.engappai.2024.109143
+
+[16] S. Axelsson, "The base-rate fallacy and the difficulty of intrusion detection," *ACM Transactions on Information and System Security*, vol. 3, no. 3, pp. 186-205, 2000. https://doi.org/10.1145/357830.357849
+
+[17] G. Engelen, V. Rimmer, and W. Joosen, "Troubleshooting an Intrusion Detection Dataset: the CICIDS2017 Case Study," in *2021 IEEE Security and Privacy Workshops (SPW)*, pp. 7-12, 2021. https://doi.org/10.1109/SPW53761.2021.00009
+
+[18] S. Mohan, S. Sharma, M. M. Unnithan, and S. Basavaraju, "Robust Phishing Detection via Transformer Embeddings and Adversarial Testing with Generative AI," in *2025 International Conference on Intelligent & Innovative Practices in Engineering & Management (IIPEM)*, 2025. https://doi.org/10.1109/IIPEM65914.2025.11548233
+
+[19] A. Ferrell et al., "Evaluating the Effectiveness of Existing Phishing Detectors on AI Generated Phishing Emails," in *2025 Cyber Awareness and Research Symposium (CARS)*, 2025. https://doi.org/10.1109/CARS67163.2025.11337548
