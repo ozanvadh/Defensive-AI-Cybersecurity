@@ -29,7 +29,7 @@ def load_model():
     tokenizer = AutoTokenizer.from_pretrained(MODEL_ID)
 
     model = AutoModelForSequenceClassification.from_pretrained(
-        MODEL_DIR
+        MODEL_ID
     )
 
     device = torch.device(
