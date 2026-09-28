@@ -70,7 +70,7 @@ plt.close()
 
 print(f"rows={len(df)}")
 print(f"attack_rate={df['label'].mean():.12f}")
-print(f"categorical_cardinalities={{c: df[c].nunique() for c in categorical}}")
+print(f"categorical_cardinalities={ {c: int(df[c].nunique()) for c in categorical} }")
 print("top_numeric_label_correlations:")
 print(corr.head(12))
 print("most_skewed_numeric_features:")
