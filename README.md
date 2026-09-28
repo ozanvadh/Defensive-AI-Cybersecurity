@@ -169,10 +169,10 @@ Defensive-AI-Cybersecurity/
 │   └── src/
 ├── Network-Layer-Intrusion-Detection/
 │   ├── README.md
-│   ├── data/
+│   ├── data/                 # local/generated; large raw data not tracked
 │   ├── demo/
 │   ├── documentation/
-│   ├── models/
+│   ├── models/               # local/generated model artifacts not tracked
 │   ├── results/
 │   ├── src/
 │   └── network_environment.txt
