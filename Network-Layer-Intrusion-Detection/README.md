@@ -24,6 +24,7 @@ The main conclusion is not that the model fails universally. It is that excellen
 - [Baseline validation](documentation/baseline_validation.md)
 - [Stronger-model validation](documentation/stronger_model_validation.md)
 - [Model interpretation and error analysis](documentation/stronger_model_interpretation.md)
+- [Five-seed validation stability supplement](documentation/seed_stability.md)
 - [Pre-specified robustness protocol](documentation/robustness_protocol.md)
 - [Corrected robustness results](documentation/robustness_results.md)
 - [Final untouched test evaluation](documentation/final_test_evaluation.md)
