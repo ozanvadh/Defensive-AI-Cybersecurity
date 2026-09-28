@@ -33,6 +33,8 @@ DistilBERT missed 319 of the 500 controlled synthetic messages. Of those misses,
 - [Publication figures](results/figures/)
 - [Defensive demo](demo/)
 - [Transformer training notes](documentation/transformer_colab.md)
+- [External-holdout evaluation script](src/evaluate_external_holdout.py)
+- [Transformer multi-seed stability script](src/run_transformer_seed_stability.py)
 
 ## Data
 
@@ -98,4 +100,4 @@ The exact two-sided McNemar test produced **p < 0.001** for this designed evalua
 
 This is defensive research. The synthetic materials were constrained to remain non-operational, and the prototype is a research demonstration rather than a production email-security system.
 
-For the integrated interpretation, see the [combined cross-layer research paper](../Cross-Layer-Integration/documentation/combined_research_paper.md).
+For the integrated interpretation, see the [combined cross-layer research paper](../Cross-Layer-Integration/documentation/combined_research_paper.md). The next independent evaluation is governed by the [frozen external-validation preregistration](../Cross-Layer-Integration/documentation/external_validation_preregistration.md).
