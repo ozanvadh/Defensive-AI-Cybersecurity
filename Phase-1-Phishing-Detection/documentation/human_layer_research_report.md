@@ -2,13 +2,13 @@
 
 ## Abstract
 
-This study investigates whether machine-learning and Natural Language Processing models can distinguish phishing-class email content from legitimate email content while maintaining a low false-positive rate, and whether controlled controlled synthetic phishing-class messages are more difficult to detect than traditional phishing-class messages.
+This study investigates whether machine-learning and Natural Language Processing models can distinguish phishing-class email content from legitimate email content while maintaining a low false-positive rate, and whether controlled synthetic phishing-class messages are more difficult to detect than traditional phishing-class messages.
 
 Two classifiers were developed and compared: a TF-IDF + Logistic Regression baseline and a fine-tuned DistilBERT transformer model. Both were trained using a large historical email dataset assembled from multiple public corpora. After reproducible cleaning and deduplication, the dataset contained 208,161 emails and was divided into training, validation, and isolated test partitions.
 
 On the traditional validation distribution, both models performed strongly. The baseline achieved 98.24% accuracy, 98.37% phishing recall, and a 1.87% false-positive rate. DistilBERT improved validation performance to 99.21% accuracy, 99.09% phishing recall, and a 0.68% false-positive rate. After model development was complete, the previously isolated 31,225-email historical test set was consumed exactly once. Test performance closely reproduced validation performance: the baseline achieved 98.25% accuracy and 98.47% recall, while DistilBERT achieved 99.23% accuracy and 99.16% recall.
 
-A separate frozen evaluation set of 500 controlled controlled synthetic phishing-class messages was then used to examine robustness under distribution shift. The baseline detected 55.4% of these messages, while DistilBERT detected 36.2%. DistilBERT also produced many high-confidence incorrect legitimate predictions. The strongest performance differences appeared across communication styles rather than simple message length or generator source. Security-oriented messages were detected much more frequently than routine workplace and general social-engineering messages.
+A separate frozen evaluation set of 500 controlled synthetic phishing-class messages was then used to examine robustness under distribution shift. The baseline detected 55.4% of these messages, while DistilBERT detected 36.2%. DistilBERT also produced many high-confidence incorrect legitimate predictions. The strongest performance differences appeared across communication styles rather than simple message length or generator source. Security-oriented messages were detected much more frequently than routine workplace and general social-engineering messages.
 
 The results show that strong in-distribution validation performance does not necessarily imply robustness to a substantially different synthetic email distribution. They also show that a more complex transformer model can outperform a simpler baseline on familiar data while degrading more sharply under distribution shift.
 
@@ -82,7 +82,7 @@ The present study is designed around that distinction. It does not attempt to pr
 
 ### Hypothesis
 
-The initial hypothesis was that NLP-based machine-learning models would distinguish phishing-class from legitimate email using language and structural patterns, but that controlled controlled synthetic phishing-class messages could be more difficult to detect because they may use more fluent and less stereotypical language.
+The initial hypothesis was that NLP-based machine-learning models would distinguish phishing-class from legitimate email using language and structural patterns, but that controlled synthetic phishing-class messages could be more difficult to detect because they may use more fluent and less stereotypical language.
 
 A second expectation was that DistilBERT could outperform the TF-IDF + Logistic Regression baseline on standard validation data because it can represent contextual language patterns that sparse bag-of-words features cannot capture directly.
 
