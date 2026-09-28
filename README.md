@@ -1,366 +1,216 @@
 # Defensive AI Cybersecurity
 
-A multi-layered defensive AI research project investigating whether machine-learning systems can detect AI-assisted cybersecurity threats at both the human communication layer and the network layer.
+A two-layer defensive machine-learning research project examining a central question:
 
-## Research Goal
+> **Can machine-learning defenses maintain reliable security decisions across human communication and network-traffic layers when evaluation moves beyond familiar data distributions?**
 
-The overall research question is:
+The project contains two completed v1 studies and a cross-layer integration. The Human Layer evaluates phishing-email classifiers under historical testing and a controlled synthetic text shift. The Network Layer evaluates intrusion-detection models under leakage-resistant validation, pre-specified feature stress tests, and the untouched official UNSW-NB15 test distribution.
 
-**Can a layered machine-learning defense detect AI-assisted cyberattacks at both the human communication layer and network layer while maintaining an acceptably low false-positive rate?**
+## Main Finding
 
-The project is organized around two complementary defensive layers:
+**Strong familiar-distribution performance did not guarantee stable defensive behavior when the information distribution changed.**
 
-- **Human Layer:** detect phishing-class email content before a user interacts with it.
-- **Network Layer:** detect suspicious or automated malicious network behavior using machine-learning methods.
+The failure direction was different in each layer:
 
-The project contains two completed v1 studies: a Human Layer evaluation of phishing-email classification under controlled synthetic distribution shift, and a Network Layer evaluation of intrusion detection under controlled feature stress tests and official test-set distribution shift.
+| Layer | Familiar-distribution result | Shift result | Dominant failure |
+| --- | --- | --- | --- |
+| Human communication | DistilBERT: **99.23%** historical-test accuracy, **99.16%** recall | **36.20%** detection on the frozen controlled synthetic phishing-class set | Malicious messages classified as legitimate |
+| Network traffic | HGB: **95.59%** validation accuracy, **8.59%** FPR | **26.29%** FPR on the untouched official test; **58.84%** FPR under controlled `sttl` neutralization | Benign flows classified as malicious |
 
----
+The two experiments are not pooled statistically. Their datasets, populations, metrics, models, and shift mechanisms differ. The cross-layer result is a repeated evaluation pattern, not a combined performance score.
 
-## Quick Navigation
+![Cross-layer distribution-shift failure modes](Cross-Layer-Integration/results/figures/cross_layer_failure_modes.svg)
 
-- [Full Human Layer research report](Phase-1-Phishing-Detection/documentation/human_layer_research_report.md)
-- [Final held-out test evaluation](Phase-1-Phishing-Detection/documentation/final_test_evaluation.md)
-- [Controlled synthetic evaluation methodology](Phase-1-Phishing-Detection/documentation/synthetic_evaluation_methodology.md)
-- [Controlled synthetic evaluation results](Phase-1-Phishing-Detection/documentation/synthetic_evaluation_results.md)
-- [Reproducibility audit](Phase-1-Phishing-Detection/documentation/reproducibility_audit.md)
-- [Aggregate results](Phase-1-Phishing-Detection/results/results_summary.csv)
-- [Publication figures](Phase-1-Phishing-Detection/results/figures/)
-- [Defensive demo](Phase-1-Phishing-Detection/demo/)
-- [Full Network Layer research report](Network-Layer-Intrusion-Detection/documentation/network_layer_research_report.md)
-- [Network Layer final test evaluation](Network-Layer-Intrusion-Detection/documentation/final_test_evaluation.md)
-- [Network Layer robustness results](Network-Layer-Intrusion-Detection/documentation/robustness_results.md)
-- [Network Layer reproducibility audit](Network-Layer-Intrusion-Detection/documentation/reproducibility_audit.md)
-- [Network Layer results summary](Network-Layer-Intrusion-Detection/results/results_summary.csv)
+## Start Here
 
----
+- **[Combined research paper](Cross-Layer-Integration/documentation/combined_research_paper.md)**: complete integrated paper covering both layers
+- **[Cross-layer integration](Cross-Layer-Integration/README.md)**: synthesis, quantitative comparison, figures, and integration framework
+- **[Human Layer](Phase-1-Phishing-Detection/README.md)**: phishing-email classification study
+- **[Network Layer](Network-Layer-Intrusion-Detection/README.md)**: intrusion-detection study
 
-## Human Layer: Phishing Detection Under Controlled Synthetic Distribution Shift
+## Human Layer
 
-### Research Question
+### Research question
 
-**How accurately can machine-learning and Natural Language Processing models distinguish phishing-class from legitimate historical emails while maintaining a low false-positive rate, and how robust are those frozen classifiers to a controlled synthetic phishing-class distribution?**
+**How accurately can machine-learning and NLP models distinguish phishing-class from legitimate historical emails while maintaining a low false-positive rate, and how robust are those frozen classifiers to a controlled synthetic phishing-class distribution?**
 
-A secondary question asks how detection performance on controlled synthetic phishing-class messages compares with performance on held-out historical phishing-class emails.
+### Data and models
 
-### Models
+The cleaned historical dataset contains **208,161 emails**:
 
-Two classifiers were developed and compared:
+- 108,953 legitimate
+- 99,208 phishing-class
+- training: 145,712
+- validation: 31,224
+- untouched historical test: 31,225
 
-1. **TF-IDF + Logistic Regression**
-2. **DistilBERT**
+Models:
 
-The baseline provides an interpretable traditional NLP comparison, while DistilBERT tests whether a transformer-based language model improves classification performance.
+- TF-IDF + Logistic Regression
+- fine-tuned DistilBERT
 
----
+### Untouched historical test
 
-## Dataset
+| Model | Accuracy | Recall | F1 | FPR |
+| --- | ---: | ---: | ---: | ---: |
+| TF-IDF + Logistic Regression | 98.25% | 98.47% | 98.17% | 1.96% |
+| DistilBERT | 99.23% | 99.16% | 99.19% | 0.70% |
 
-The primary historical dataset is based on the **Phishing-Email-Detection-Dataset**, which merges email corpora including Enron, SpamAssassin, TREC, CEAS, Nazario, Nigerian scam collections, and other sources.
+### Controlled synthetic shift
 
-After reproducible cleaning and exact-body deduplication:
+A separately frozen set of **500 positive-class controlled synthetic messages** was created before classifier exposure.
 
-- **208,161 emails**
-- **108,953 legitimate**
-- **99,208 phishing-class**
-- approximately **52.34% legitimate / 47.66% phishing-class**
-
-The processed data was split with a fixed random seed into:
-
-- **Training:** 145,712
-- **Validation:** 31,224
-- **Test:** 31,225
-
-No exact duplicate email bodies were allowed across the splits.
-
-The test set remained isolated throughout model development and was consumed exactly once after all model-development decisions were frozen. No post-test tuning, retraining, threshold adjustment, calibration fitting, feature selection, or model selection was permitted.
-
----
-
-## Traditional Validation Results
-
-| Model | Accuracy | Precision | Recall | F1 | False-Positive Rate |
-| --- | ---: | ---: | ---: | ---: | ---: |
-| TF-IDF + Logistic Regression | 98.24% | 97.96% | 98.37% | 98.16% | 1.87% |
-| DistilBERT | 99.21% | 99.25% | 99.09% | 99.17% | 0.68% |
-
-On the historical validation distribution, DistilBERT improved both phishing recall and false-positive performance.
-
-The DistilBERT validation confusion matrix was:
-
-- True negatives: 16,232
-- False positives: 111
-- False negatives: 135
-- True positives: 14,746
-
-Compared with the baseline, DistilBERT reduced total validation errors from **548 to 246**.
-
----
-
-## Final Held-Out Historical Test Results
-
-After model development was complete, both frozen classifiers were evaluated once on the previously untouched **31,225-email** historical test set.
-
-| Model | Accuracy | Precision | Recall | F1 | False-Positive Rate | False-Negative Rate |
-| --- | ---: | ---: | ---: | ---: | ---: | ---: |
-| TF-IDF + Logistic Regression | 98.25% | 97.86% | 98.47% | 98.17% | 1.96% | 1.53% |
-| DistilBERT | 99.23% | 99.23% | 99.16% | 99.19% | 0.70% | 0.84% |
-
-The final confusion-matrix counts were:
-
-| Model | TN | FP | FN | TP | Total Errors |
-| --- | ---: | ---: | ---: | ---: | ---: |
-| TF-IDF + Logistic Regression | 16,023 | 320 | 227 | 14,655 | 547 |
-| DistilBERT | 16,228 | 115 | 125 | 14,757 | 240 |
-
-The close validation-to-test agreement provides evidence of strong same-distribution generalization for both frozen models. This makes the later decline on the controlled synthetic distribution distinct from ordinary failure to generalize to unseen historical examples.
-
-The test set is now permanently treated as consumed. Future model improvements require a new independent holdout rather than further tuning against these test results.
-
----
-
-## Robustness Analysis
-
-Strong validation accuracy does not automatically imply robustness.
-
-Several checks were performed to investigate whether performance could be explained by simple dataset artifacts:
-
-- removal of obvious source and year markers;
-- a length-only classifier;
-- model error overlap;
-- high-confidence error analysis;
-- token-length and context-window analysis.
-
-Removing obvious source artifacts barely changed baseline performance.
-
-A length-only classifier reached only about **59.9% accuracy**, indicating that message length alone cannot explain the approximately 98% baseline validation accuracy.
-
-Increasing DistilBERT inference length from 256 to 512 tokens changed only **45 of 31,224 predictions**, suggesting that truncation was not the main source of validation errors.
-
----
-
-## Controlled Synthetic Evaluation
-
-A separate frozen evaluation set of **500 controlled synthetic phishing-class messages** was created before either model was evaluated on it.
-
-The set contains five communication styles:
-
-- account/security;
-- workplace/business;
-- delivery/service;
-- promotional/offer;
-- general social engineering.
-
-Two generation sources contributed equally:
-
-- Copilot: 250 messages
-- Gemini: 250 messages
-
-The messages were intentionally non-operational and generated under defensive safety constraints. No real credential collection, malware delivery, payment collection, real targets, or deployable malicious links were used.
-
-Because all 500 messages belong to the positive phishing class, the primary synthetic metric is **detection rate / recall**.
-
-### Synthetic Detection Results
-
-| Model | Detected | Detection Rate | 95% Wilson Interval |
+| Model | Historical-test recall | Synthetic detection | Change |
 | --- | ---: | ---: | ---: |
-| TF-IDF + Logistic Regression | 277 / 500 | 55.4% | 51.0%-59.7% |
-| DistilBERT | 181 / 500 | 36.2% | 32.1%-40.5% |
+| TF-IDF + Logistic Regression | 98.47% | 55.40% | -43.07 pp |
+| DistilBERT | 99.16% | 36.20% | -62.96 pp |
 
-This created an important reversal:
+Because the synthetic set contains only positive-class examples, it cannot estimate synthetic-set precision, false-positive rate, or overall accuracy.
 
-- on traditional validation, DistilBERT performed better;
-- on the controlled synthetic distribution, the simpler baseline detected more phishing-class messages.
+Of DistilBERT's 319 synthetic misses, **290** were predicted legitimate with at least 90% raw confidence and **233** with at least 99% raw confidence. Raw confidence is not treated as a calibrated probability of correctness.
 
-### Detection by Style
+![Human Layer historical versus synthetic detection](Phase-1-Phishing-Detection/results/figures/figure_2_historical_vs_synthetic.svg)
 
-| Category | Baseline | DistilBERT |
-| --- | ---: | ---: |
-| Account/security | 99% | 82% |
-| Delivery/service | 55% | 28% |
-| General social engineering | 20% | 2% |
-| Promotional/offer | 84% | 59% |
-| Workplace/business | 19% | 10% |
+## Network Layer
 
-Routine workplace/business and general social-engineering language was especially difficult for both models.
+### Research question
 
-### Model Overlap
+**How accurately can machine-learning models distinguish malicious from benign network traffic while maintaining a low false-positive rate, and how robust are those models when evaluated under network-traffic distribution shift?**
 
-Across the 500-message synthetic set:
+### Data and models
 
-- both models detected: **168**
-- both models missed: **210**
-- baseline only detected: **109**
-- DistilBERT only detected: **13**
+The study uses the official UNSW-NB15 modeling partitions:
 
-An exact paired McNemar test produced **p < 0.001** within this evaluation set.
+- official training partition: 175,341 rows
+- official test partition: 82,332 rows
 
-This is evidence of a meaningful paired performance difference on the controlled dataset, but it does **not** establish that logistic regression is universally more robust than DistilBERT.
+After a leakage audit, the official training partition was divided into a **140,269-row development set** and **35,072-row validation set** while preventing identical complete modeling predictor vectors from crossing the split.
 
----
+Models:
 
-## Confidence and Distribution Shift
+- Logistic Regression
+- Histogram Gradient Boosting
 
-The DistilBERT synthetic errors were frequently high-confidence failures.
+### Internal validation
 
-Among its **319 missed synthetic messages**:
+| Model | Accuracy | Recall | F1 | FPR | Balanced accuracy |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Logistic Regression | 93.28% | 98.70% | 95.24% | 18.27% | 90.22% |
+| Histogram Gradient Boosting | 95.59% | 97.56% | 96.79% | 8.59% | 94.48% |
 
-- **290** were predicted legitimate with at least 90% confidence;
-- **233** were predicted legitimate with at least 99% confidence;
-- median confidence on missed messages was **99.92%**.
+### Controlled feature stress tests
 
-This result is important because it shows that low uncertainty did not reliably identify out-of-distribution failure.
+Permutation importance showed unusually strong dependence on `sttl`. Under the pre-specified controlled `sttl` neutralization:
 
-Synthetic messages were short overall, with a median length of approximately **193 characters / 26 words**, so simple message length or the 256-token input limit does not explain the synthetic performance drop.
+- balanced accuracy: **94.48% → 69.41%**
+- FPR: **8.59% → 58.84%**
+- attack recall: **97.56% → 97.67%**
 
-The strongest pattern was communication style. Security/account vocabulary was associated with higher detection, while routine organizational language such as project, schedule, meeting, workspace, team, and document was associated with misses.
+Under TTL-family neutralization, FPR increased to **84.07%** while attack recall remained **97.65%**.
 
-These are descriptive associations, not causal word-level explanations.
+These are diagnostic feature-information ablations, not simulations of a specific real-world attack.
 
----
+### Untouched official test
 
-## Defensive Demo
+The frozen Histogram Gradient Boosting model achieved:
 
-An interactive Streamlit prototype converts the DistilBERT classifier into a usable defensive research demo.
+- **87.38% accuracy**
+- **98.53% attack recall**
+- **89.58% F1**
+- **26.29% false-positive rate**
+- **86.12% balanced accuracy**
+- **98.48% ROC AUC**
 
-The user can paste email text and receive:
+The official-test degradation was dominated by benign false positives rather than loss of attack sensitivity. The project does not claim that TTL dependence caused the official test gap.
 
-- a legitimate vs. potential-phishing classification;
-- phishing probability;
-- legitimate probability;
-- model information;
-- a warning that high model confidence does not guarantee correctness.
+## Why the Two Layers Matter Together
 
-Demo code:
+The Human and Network studies expose opposite operational costs of distribution shift.
 
-`Phase-1-Phishing-Detection/demo/phishing_detector_app.py`
+In the Human Layer, the shifted evaluation produced **false negatives**: malicious messages passed as legitimate.
 
-Demo documentation:
+In the Network Layer, the shifted evaluations primarily produced **false positives**: benign traffic was increasingly flagged as malicious.
 
-`Phase-1-Phishing-Detection/demo/README.md`
+This makes the integrated conclusion more specific than “distribution shift lowers accuracy.” Defensive failures can move in different directions depending on the security layer, so evaluation must inspect sensitivity, specificity, confidence, error concentration, and feature dependence rather than relying on one headline metric.
 
-The trained model is hosted on [Hugging Face](https://huggingface.co/ozuvadh/defensive-ai-phishing-distilbert).
+## Research Safeguards
 
-The demo loads the model directly from Hugging Face rather than relying on a researcher-specific local path.
+The project includes:
 
----
+- fixed seeds and documented model configurations;
+- raw-data fingerprints where applicable;
+- leakage and artifact checks;
+- untouched final evaluation sets;
+- no post-test tuning for either completed v1 study;
+- a frozen Human synthetic set before classifier exposure;
+- a pre-specified Network robustness protocol;
+- paired statistical testing for the Human synthetic comparison;
+- Wilson intervals for relevant subgroup estimates;
+- permutation importance and error analysis;
+- machine-readable result summaries;
+- captured Network project-machine environment;
+- an independent computational rerun of the Network pipeline that reproduced core metrics and corrected an earlier robustness-reporting mismatch before integration.
 
-## Reproducibility
+Both final test sets are considered consumed for v1. Future tuned models require new independent holdouts for unbiased final evaluation.
 
-The repository includes scripts for:
-
-- dataset inspection and cleaning;
-- train/validation/test splitting;
-- formal exploratory data analysis;
-- TF-IDF + Logistic Regression training;
-- baseline interpretation;
-- artifact and length robustness checks;
-- DistilBERT training;
-- transformer error analysis;
-- controlled synthetic evaluation;
-- paired model comparison;
-- defensive demo inference.
-
-Important research artifacts and detailed synthetic-evaluation outputs are documented under:
-
-`Phase-1-Phishing-Detection/documentation/`
-
-Core synthetic evaluation can be reproduced with:
-
-`Phase-1-Phishing-Detection/src/evaluate_synthetic.py`
-
----
-
-## Repository Structure
+## Repository Map
 
 ```text
 Defensive-AI-Cybersecurity/
 ├── README.md
 ├── Phase-1-Phishing-Detection/
-    ├── data/
-    │   ├── raw/
-    │   └── processed/
-    ├── demo/
-    │   ├── phishing_detector_app.py
-    │   ├── requirements.txt
-    │   └── README.md
+│   ├── README.md
+│   ├── data/
+│   ├── demo/
+│   ├── documentation/
+│   ├── models/
+│   ├── notebooks/
+│   ├── results/
+│   └── src/
+├── Network-Layer-Intrusion-Detection/
+│   ├── README.md
+│   ├── data/
+│   ├── demo/
+│   ├── documentation/
+│   ├── models/
+│   ├── results/
+│   ├── src/
+│   └── network_environment.txt
+└── Cross-Layer-Integration/
+    ├── README.md
     ├── documentation/
-    │   ├── transformer_colab.md
-    │   ├── synthetic_evaluation_methodology.md
-    │   ├── synthetic_evaluation_results.md
-    │   ├── final_test_evaluation.md
-    │   ├── reproducibility_audit.md
-    │   └── human_layer_research_report.md
-    ├── models/
-    ├── notebooks/
-    ├── results/
-    ├── src/
-    └── requirements-transformer.txt
-└── Network-Layer-Intrusion-Detection/
-    ├── data/
-    ├── documentation/
-    ├── models/
-    ├── results/
-    ├── src/
-    ├── network_environment.txt
-    └── README.md
+    │   ├── integration_framework.md
+    │   ├── quantitative_synthesis.md
+    │   └── combined_research_paper.md
+    └── results/
+        ├── cross_layer_results.csv
+        └── figures/
 ```
 
-Large raw datasets and trained model weights are intentionally not committed directly to GitHub.
+Large raw datasets and trained model weights are intentionally not committed directly to the source repository.
 
----
+## Defensive Prototypes
 
-## Network Layer: Intrusion Detection Under Distribution Shift
+The Human Layer includes a Streamlit phishing-classification research demo. The trained DistilBERT weights are hosted separately on Hugging Face.
 
-The completed Network Layer uses UNSW-NB15 to test whether strong internal intrusion-detection performance survives controlled feature perturbation and an untouched official test distribution.
+The Network Layer includes a defensive CSV demo that applies the locally trained frozen model to pre-recorded UNSW-NB15-style rows.
 
-The stronger Histogram Gradient Boosting model achieved **95.59% validation accuracy**, **97.56% attack recall**, and an **8.59% false-positive rate**. A pre-specified stress test that neutralized only `sttl` reduced balanced accuracy from **94.48% to 69.41%** by increasing the false-positive rate from **8.59% to 58.84%**, while attack recall remained **97.67%**.
+Neither prototype is presented as a production security system.
 
-On the untouched official 82,332-row test partition, the frozen stronger model retained **98.53% attack recall**, but accuracy fell to **87.38%** and the false-positive rate increased to **26.29%**. This indicates a substantial benign-traffic generalization gap.
+## Scope and Safety
 
-The controlled feature ablations diagnose model sensitivity. They are not simulations of a specific real-world attack and do not establish that an attacker can force the tested transformations.
+This project is exclusively defensive.
 
-Full Network Layer documentation is available under:
-
-`Network-Layer-Intrusion-Detection/documentation/`
-
----
-
-## Safety and Ethics
-
-This project is defensive research.
-
-The work uses public historical datasets and controlled synthetic materials. It does not involve targeting real people, collecting credentials, compromising accounts, delivering malware, or deploying phishing campaigns.
-
-Synthetic messages were created for classifier evaluation only and were intentionally constrained to be non-operational.
-
-The defensive demo is a research prototype and should not be treated as a production email-security system.
-
----
+It does not conduct real phishing campaigns, target real individuals, collect credentials, scan unauthorized systems, probe external networks, deploy malware, or attack live infrastructure. The Human synthetic messages were generated under non-operational safety constraints. The Network study uses pre-recorded public network-flow data and offline feature transformations.
 
 ## Limitations
 
-Important limitations include:
+The Human historical dataset combines older corpora and uses a broad phishing-class definition. The controlled synthetic set contains 500 positive-class messages from two generation sources and is not a representative random sample of all AI-generated or real-world phishing.
 
-- the historical dataset combines several older email corpora and a broad phishing-class definition;
-- corpus-specific language may influence model behavior;
-- the controlled synthetic set is not representative of every form of real-world or AI-assisted phishing;
-- only two generation sources and five synthetic communication categories were evaluated;
-- the synthetic evaluation set contains only positive phishing-class examples;
-- strong validation performance did not guarantee out-of-distribution robustness;
-- model confidence was not reliably calibrated under synthetic distribution shift.
+UNSW-NB15 was generated in a controlled cyber-range and does not establish current production-network performance. The Network feature ablations are diagnostic tests rather than realistic adversarial attacks.
 
-The frozen synthetic evaluation set should not be reused for tuning without creating a new independent holdout for final evaluation.
+Neither layer establishes that its detector is safe for autonomous production blocking.
 
----
+## Project Thesis
 
-## Core Finding
-
-The Human Layer experiments show two things at the same time:
-
-1. both classifiers generalized strongly from validation to a previously untouched historical test set;
-2. that strong same-distribution performance still degraded sharply when the writing distribution changed.
-
-Within the controlled synthetic evaluation, communication style appeared more informative than simple message length or generator source, and DistilBERT frequently made highly confident incorrect predictions.
-
-Across both completed layers, the project supports evaluating defensive AI systems not only by standard validation accuracy, but also by carefully controlled robustness tests and untouched evaluation distributions.
+> **Defensive AI systems can achieve very high performance on familiar benchmark distributions while remaining vulnerable to materially different failure modes under distribution shift. Robust evaluation therefore requires layer-specific stress testing, explicit false-positive and false-negative analysis, leakage controls, model-dependence analysis, and untouched final evaluation rather than reliance on aggregate benchmark accuracy alone.**
