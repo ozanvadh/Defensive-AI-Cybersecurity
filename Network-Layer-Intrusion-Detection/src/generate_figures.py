@@ -17,7 +17,7 @@ with open(ROOT/"results/robustness/condition_metrics.json") as f:
 
 data=pd.DataFrame({
  "Metric":["Accuracy","Balanced accuracy","Attack recall","False-positive rate"],
- "Validation":[validation["accuracy"],validation["balanced_accuracy"],validation["recall"],validation["fpr"]],
+ "Validation":[validation["accuracy"],validation["balanced_accuracy"],validation["recall"],validation["false_positive_rate"]],
  "Final test":[final["accuracy"],final["balanced_accuracy"],final["recall"],final["fpr"]],
 }).set_index("Metric")
 ax=data.plot.bar(rot=0)
@@ -44,7 +44,7 @@ plt.tight_layout()
 plt.savefig(OUT/"robustness_summary.png",dpi=300)
 plt.close()
 
-fpr=pd.Series({"Validation":validation["fpr"],"Final test":final["fpr"]})
+fpr=pd.Series({"Validation":validation["false_positive_rate"],"Final test":final["fpr"]})
 ax=fpr.plot.bar(rot=0)
 ax.set_ylabel("False-positive rate")
 ax.set_ylim(0,max(.30,float(fpr.max())*1.1))
