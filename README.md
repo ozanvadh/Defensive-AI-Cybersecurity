@@ -2,7 +2,7 @@
 
 **A two-layer machine-learning security study showing how near-99% benchmark performance can conceal severe failures when the data distribution changes.**
 
-[Research Paper](Cross-Layer-Integration/documentation/combined_research_paper.md) · [Human Layer](Phase-1-Phishing-Detection/README.md) · [Network Layer](Network-Layer-Intrusion-Detection/README.md) · [Scientific Audit](FINAL_SCIENTIFIC_AUDIT.md)
+**[Try the Live Phishing Detector](https://defensive-ai-phishing-detector.streamlit.app/)** · [Research Paper](Cross-Layer-Integration/documentation/combined_research_paper.md) · [Human Layer](Phase-1-Phishing-Detection/README.md) · [Network Layer](Network-Layer-Intrusion-Detection/README.md) · [Scientific Audit](FINAL_SCIENTIFIC_AUDIT.md)
 
 > **Central question:** Can machine-learning defenses maintain reliable security decisions across human communication and network-traffic layers when evaluation moves beyond familiar data distributions?
 
@@ -90,6 +90,7 @@ The completed Human historical test, Human synthetic set, and Network official t
 
 | Resource | Purpose |
 | --- | --- |
+| **[Live Phishing Detector](https://defensive-ai-phishing-detector.streamlit.app/)** | Interactive Streamlit research demo using the trained DistilBERT phishing classifier |
 | **[Combined Research Paper](Cross-Layer-Integration/documentation/combined_research_paper.md)** | Full methods, results, related work, statistical analysis, discussion, and limitations |
 | **[Human Layer](Phase-1-Phishing-Detection/README.md)** | Phishing-classification experiment, robustness analysis, figures, and prototype |
 | **[Network Layer](Network-Layer-Intrusion-Detection/README.md)** | Intrusion-detection experiment, leakage audit, stress tests, and final evaluation |
@@ -114,7 +115,7 @@ Large raw datasets and trained model weights are not committed directly to the r
 
 ## Defensive Prototypes
 
-The Human Layer includes a Streamlit research demo using the trained DistilBERT phishing classifier. The Network Layer includes a defensive CSV demo for pre-recorded UNSW-NB15-style flows.
+The Human Layer includes a **[live Streamlit research demo](https://defensive-ai-phishing-detector.streamlit.app/)** using the trained DistilBERT phishing classifier. Visitors can paste email text and view the model's phishing/legitimate prediction and class probabilities. The Network Layer includes a defensive CSV demo for pre-recorded UNSW-NB15-style flows.
 
 These are research prototypes, **not production security products**.
 
